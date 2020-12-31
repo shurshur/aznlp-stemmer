@@ -1,3 +1,5 @@
+import os
+
 # Stemmer class definition
 class Stemmer:
     # Stores the words loaded from the words.txt file
@@ -6,6 +8,14 @@ class Stemmer:
     suffixes = []
     # Stores all possible stems of a word
     stems = []
+
+    __dir_list  = ['.', os.path.dirname(__file__)]
+    def __search_file(self, filename):
+        for d in self.__dir_list:
+            full_filename = os.path.join(d, filename)
+            if os.path.exists(full_filename):
+               return os.path.abspath(full_filename)
+        return filename
 
     # Constructor of the Stemmer class
     def __init__(self):
@@ -23,7 +33,7 @@ class Stemmer:
     # Loads the words from the word.txt file into memory
     def __load_words(self):
         # Open words.txt file in read mode with utf-8 encoding.
-        with open("words.txt", "r", encoding="utf8") as words_file:
+        with open(self.__search_file("words.txt"), "r", encoding="utf8") as words_file:
             # Iterate over each line in the words.txt file
             for word in words_file:
                 # Trim the spaces and newline characters from the string before adding to the list
@@ -32,7 +42,7 @@ class Stemmer:
     # Loads the suffixes from the suffix.txt file into memory
     def __load_suffixes(self):
         # Open suffix.txt file in read mode with utf-8 encoding
-        with open("suffix.txt", "r", encoding="utf8") as suffix_file:
+        with open(self.__search_file("suffix.txt"), "r", encoding="utf8") as suffix_file:
             # Iterate over each line in the suffix.txt file
             for suffix in suffix_file:
                 # Trim the spaces and newline characters from the string before adding to the list
